@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.11
+    container_name: book-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: bookdb
+    ports:
+      - "3306:3306"
+    networks:
+      - demo-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: demo-module-3-app
+    ports:
+      - "8080:8080"
+      - "5005:5005"      # Debugger
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/bookdb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
+    networks:
+      - demo-network
+
+networks:
+  demo-network:
+    driver: bridge
