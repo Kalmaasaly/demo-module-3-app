@@ -1,0 +1,7 @@
+package org.example.demomodule3app.exception;
+
+public class AuthorNotFoundException extends RuntimeException {
+    public AuthorNotFoundException(String message) {
+        super(message);
+    }
+}

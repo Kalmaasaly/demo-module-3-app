@@ -51,11 +51,13 @@ public class BookService {
         return repository.save(existingBook);
     }
     public List<Book> searchBooks(String author, String title) {
-        List<Book> allBooks = repository.findAll();
+       /* List<Book> allBooks = repository.findAll();
 
         return allBooks.stream()
                 .filter(book -> (author == null || book.getAuthor().equalsIgnoreCase(author)))
                 .filter(book -> (title == null || book.getTitle().equalsIgnoreCase(title)))
-                .toList();
+                .toList();*/
+
+        return repository.search(author,title);
     }
 }

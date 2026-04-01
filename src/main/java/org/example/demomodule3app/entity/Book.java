@@ -1,13 +1,14 @@
 package org.example.demomodule3app.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
+@Table(name = "books")
 public class Book {
 
     @Id
@@ -18,14 +19,28 @@ public class Book {
     @Size(min = 1, message = "Title cannot be empty")
     private String title;
 
-    @NotNull(message = "Author cannot be null")
+    /*@NotNull(message = "Author cannot be null")
     @Size(min = 3, message = "Author must be at least 3 characters")
-    private String author;
+    private String author;*/
+
+    //  @ManyToOne — Book owns the FK column "author_id"
+    // Book = MANY,  Author = ONE
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
+    private Author author;
+
+    @ManyToMany
+    @JoinTable(
+            name = "book_categories",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories = new HashSet<>();
 
     public Book() {}
 
-    public Book(Integer id, String title, String author) {
-        this.id = id;
+    public Book(String title, Author  author) {
+       // this.id = id;
         this.title = title;
         this.author = author;
     }
@@ -34,6 +49,31 @@ public class Book {
     public void setId(Integer id) { this.id = id; }
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
-    public String getAuthor() { return author; }
-    public void setAuthor(String author) { this.author = author; }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    // helper methods to keep both sides in sync
+    public void addCategory(Category category) {
+        this.categories.add(category);
+        category.getBooks().add(this);
+    }
+
+    public void removeCategory(Category category) {
+        this.categories.remove(category);
+        category.getBooks().remove(this);
+    }
 }
