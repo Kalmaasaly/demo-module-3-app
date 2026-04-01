@@ -29,4 +29,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleOther(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
     }
+    @ExceptionHandler(AuthorNotFoundException.class)
+    public ResponseEntity<String> handleAuthorNotFound(AuthorNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<String> handleCategoryNotFound(CategoryNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }

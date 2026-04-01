@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/authors")
 public class AuthorController {
@@ -19,7 +21,15 @@ public class AuthorController {
     public AuthorController(AuthorService authorService) {
         this.authorService = authorService;
     }
+    @GetMapping
+    public List<Author> getAllAuthors() {
+        return authorService.getAllAuthors();  // add this method to AuthorService too
+    }
 
+    @GetMapping("/{id}")
+    public Author getAuthorWithBooks(@PathVariable Integer id) {
+        return authorService.getAuthorWithBooks(id);
+    }
     @PostMapping
     public ResponseEntity<Author> createBook(@Valid @RequestBody Author author) {
         Author createdAuthor = authorService.createAuthor(author);

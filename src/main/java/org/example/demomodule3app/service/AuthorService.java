@@ -11,6 +11,8 @@ import org.example.demomodule3app.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class AuthorService {
@@ -61,5 +63,8 @@ public class AuthorService {
             throw new AuthorNotFoundException("Author not found with id: " + id);
         author.setId(id);
         return authorRepository.save(author);
+    }
+    public List<Author> getAllAuthors(){
+        return authorRepository.findAll();
     }
 }

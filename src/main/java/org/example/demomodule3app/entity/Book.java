@@ -19,9 +19,7 @@ public class Book {
     @Size(min = 1, message = "Title cannot be empty")
     private String title;
 
-    /*@NotNull(message = "Author cannot be null")
-    @Size(min = 3, message = "Author must be at least 3 characters")
-    private String author;*/
+
 
     //  @ManyToOne — Book owns the FK column "author_id"
     // Book = MANY,  Author = ONE

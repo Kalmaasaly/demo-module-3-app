@@ -9,10 +9,12 @@ import org.example.demomodule3app.repository.AuthorRepository;
 import org.example.demomodule3app.repository.BookRepository;
 import org.example.demomodule3app.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class BookService {
 
     private final BookRepository bookRepository;
@@ -34,9 +36,6 @@ public class BookService {
                 .orElseThrow(() -> new BookNotFoundException("Book not found with id: " + id));
     }
 
-    /*public Book createBook(Book book) {
-        return repository.save(book);
-    }*/
     public Book createBook(CreateBookDTO dto){
 
         Author author;

@@ -11,8 +11,8 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
     @Query("SELECT b FROM Book b WHERE " +
-            "(:author IS NULL OR LOWER(b.author) = LOWER(:author)) AND " +
-            "(:title  IS NULL OR LOWER(b.title)  = LOWER(:title))")
+            "(:author IS NULL OR LOWER(b.author.name) = LOWER(:author)) AND " +
+            "(:title  IS NULL OR LOWER(b.title)       = LOWER(:title))")
     List<Book> search(@Param("author") String author,
                       @Param("title")  String title);
 }
