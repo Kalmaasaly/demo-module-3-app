@@ -1,6 +1,7 @@
 package org.example.demomodule3app.controller;
 
 import jakarta.validation.Valid;
+import org.example.demomodule3app.dto.CreateBookDTO;
 import org.example.demomodule3app.entity.Book;
 import org.example.demomodule3app.service.BookService;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class BookController {
 
     // POST /books
     @PostMapping
-    public ResponseEntity<Book> createBook(@Valid @RequestBody Book book) {
+    public ResponseEntity<Book> createBook(@Valid @RequestBody CreateBookDTO book) {
         Book createdBook = bookService.createBook(book);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
     }
