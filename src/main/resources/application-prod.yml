@@ -1,6 +1,4 @@
 spring:
-  profile:
-    active: dev
   application:
     name: demo-module-3-app
   datasource:
@@ -15,12 +13,14 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
-  logging:
-    level:
-      root: ERROR
   ai:
-   ollama:
-    base-url:http://localhost:11434
-  chat:
-    model:llama3
-    options.temperature=0.7
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: llama3
+        options:
+          temperature: 0.7
+
+logging:
+  level:
+    root: DEBUG
