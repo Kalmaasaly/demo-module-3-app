@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+
   db:
     image: mariadb:10.11
     container_name: book-db
@@ -17,6 +18,21 @@ services:
       timeout: 5s
       retries: 5
 
+  ollama:
+    image: ollama/ollama
+    container_name: book-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama   # persists downloaded models
+    networks:
+      - demo-network
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   app:
     build: .
     container_name: demo-module-3-app
@@ -26,13 +42,19 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      ollama:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/bookdb
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
+      SPRING_AI_OLLAMA_BASE_URL: http://ollama:11434   # points to ollama container
     networks:
       - demo-network
 
 networks:
   demo-network:
     driver: bridge
+
+volumes:
+  ollama-data:   # stores llama3 model so you don't re-download every time
