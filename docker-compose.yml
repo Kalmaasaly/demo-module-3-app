@@ -48,7 +48,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/bookdb
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
-      SPRING_AI_OLLAMA_BASE_URL: http://ollama:11434   # points to ollama container
+      SPRING_AI_OLLAMA_BASE_URL: http://ollama:11434
     networks:
       - demo-network
 
