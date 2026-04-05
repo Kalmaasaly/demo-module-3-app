@@ -1,7 +1,6 @@
 # ── Stage 1: Build the jar inside Docker ─────────────────────────────────────
 FROM eclipse-temurin:21-jdk-alpine AS builder
 WORKDIR /app
-
 # Copy gradle files first (better layer caching)
 COPY gradlew .
 COPY gradle gradle
